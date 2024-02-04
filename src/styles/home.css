@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'KNPSKkomi';
+  src: url('https://cdn.jsdelivr.net/gh/webdesignfarm/font/KNPSKkomi.woff') format('woff');
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  font-size: medium;
+  font-family: 'KNPSKkomi', serif;
+  background-color: rgba(40, 32, 112, 0.217);
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+}
