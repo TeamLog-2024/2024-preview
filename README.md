@@ -1,2 +1,2 @@
-# 2024-preview
-2024 TeamLog showcase(preview) project
+# G4F-Stock
+[Repository](https://github.com/h0pler/g4f-stock)
