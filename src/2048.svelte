@@ -121,7 +121,7 @@
   }
 
   function canMove() {
-    // 더 이상 움직일 수 있는지 확인하는 로직 추가
+    // 더 이상 움직일 수 있는지 확인
     for (let i = 0; i < 4; i++) {
       for (let j = 0; j < 4; j++) {
         if (
@@ -130,11 +130,11 @@
           (isValidPosition(i, j - 1) && board[i][j] === board[i][j - 1]) ||
           (isValidPosition(i, j + 1) && board[i][j] === board[i][j + 1])
         ) {
-          return true; // 더 이상          return true; // 더 이상 움직일 수 있음
+          return true; 
         }
       }
     }
-    return false; // 더 이상 움직일 수 없음
+    return false; 
   }
 
   function getCellStyle(value) {
