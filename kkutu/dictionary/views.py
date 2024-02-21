@@ -276,6 +276,10 @@ def threeletter(request):
     return render(request, "threeletter.html", {"placeholders" : ["시작 글자", "미션 글자"]})
 
 
+def wordbattle(request):
+    return render(request, "wordbattle.html", {"placeholders" : ["시작 글자", "미션 글자", "단어 길이"]})
+
+
 def database(request):
     li = ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
 
