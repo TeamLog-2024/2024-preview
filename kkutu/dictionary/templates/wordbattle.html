@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>단어대결</title>
     <link rel="stylesheet" href="{% static 'wordbattle.css' %}">
 </head>
 <body>
@@ -23,7 +23,7 @@
             <input name="first" placeholder="{{ placeholders.0 }}">
             <input name="mission" placeholder="{{ placeholders.1 }}" autofocus>
             <input name="length" placeholder="{{ placeholders.2 }}">
-            <input name="category" placeholder="{{ placeholders.3 }}" list="categories" value="{{ value }}">
+            <input name="category" placeholder="{{ placeholders.3 }}" list="categories" value="{{ value.0 }}">
             <datalist id="categories">
                 {% for i in categories %}
                 <option value="{{ i }}"></option>

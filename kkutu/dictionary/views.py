@@ -335,7 +335,7 @@ def wordbattle(request):
         for i in soup.select(".wikitable > tbody > tr > td > a")[:141]:
             categories.append(i.text)
 
-        value = category
+        value = [category]
 
         return render(request, "wordbattle.html", {"words" : words, "placeholders" : placeholders, "categories" : categories, "value" : value})
     
@@ -490,6 +490,9 @@ def database(request):
             #                     pass
             # 막아 놓음
             return render(request, "disabled.html")
+        
+        elif category == "9":
+            return render(request, "preparing.html")
 
         else:
             return render(request, "NotFound.html")
