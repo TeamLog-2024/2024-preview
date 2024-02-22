@@ -1,4 +1,4 @@
-f = open("db.sql", "r", encoding="utf-8")
+# f = open("db.sql", "r", encoding="utf-8")
 
 # data = f.readlines()[147827:579225:]
 
@@ -40,21 +40,43 @@ f = open("db.sql", "r", encoding="utf-8")
 #                         break
 #                     word += i[k]
 
-data = f.readlines()[794:147811:]
+# data = f.readlines()[794:147811:]
 
-english = []
+# english = []
 
-for i in data:
-    word = ""
-    for j in i:
-        if j == "\t":
-            english.append(word)
-            break
-        word += j
+# for i in data:
+#     word = ""
+#     for j in i:
+#         if j == "\t":
+#             english.append(word)
+#             break
+#         word += j
 
-a = 0
-for i in english:
-    if i == "zoisia":
-        a += 1
+# a = 0
+# for i in english:
+#     if i == "zoisia":
+#         a += 1
 
-print(a)
+# print(a)
+
+import requests
+from bs4 import BeautifulSoup
+
+url = "https://kkukowiki.kr/w/주제"
+res = requests.get(url)
+soup = BeautifulSoup(res.text, "html.parser")
+
+category = []
+
+for i in soup.select(".wikitable > tbody > tr > td > a"):
+    category.append(i.text)
+
+print(category)
+
+# for i in category:
+#     for j in "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ":
+#         url = f"https://kkukowiki.kr/w/{i}/글자별_단어_목록/{j}"
+#         res = requests.get(url)
+#         soup = BeautifulSoup(res.text, "html.parser")
+#         for k in soup.select(".wikitable > tbody > tr > td > a")[14:]:
+#             print(k.text)

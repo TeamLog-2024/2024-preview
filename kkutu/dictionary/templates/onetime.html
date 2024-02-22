@@ -5,21 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'wordsheet.css' %}">
+    <link rel="stylesheet" href="{% static 'onetime.css' %}">
 </head>
 <body>
-    <h1>공격단어</h1>
+    <h1>한방단어</h1>
     <select onchange="window.open(value, '_self');">
         <option value="{% url 'backletter' %}">끝말잇기</option>
         <option value="{% url 'frontletter' %}">앞말잇기</option>
         <option value="{% url 'attack' %}">공격단어</option>
         <option value="{% url 'onetime' %}" selected>한방단어</option>
         <option value="{% url 'threeletter' %}">쿵쿵따</option>
+        <option value="{% url 'wordbattle' %}">단어대결</option>
     </select>
     <form method="post" name="searchForm">
+        <h2>준비 중</h2>
         {% csrf_token %}
         <div id="search">
-            <h2>준비 중</h2>
             <!-- <input name="first" placeholder="{{ placeholders.0 }}" autofocus>
             <input name="mission" placeholder="{{ placeholders.1 }}">
             <input name="length" placeholder="{{ placeholders.2 }}">

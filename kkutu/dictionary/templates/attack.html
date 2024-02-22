@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'wordsheet.css' %}">
+    <link rel="stylesheet" href="{% static 'attack.css' %}">
 </head>
 <body>
     <h1>공격단어</h1>
@@ -15,6 +15,7 @@
         <option value="{% url 'attack' %}" selected>공격단어</option>
         <option value="{% url 'onetime' %}" >한방단어</option>
         <option value="{% url 'threeletter' %}">쿵쿵따</option>
+        <option value="{% url 'wordbattle' %}">단어대결</option>
     </select>
     <form method="post" name="searchForm">
         {% csrf_token %}
@@ -28,7 +29,7 @@
     </form>
     <hr>
     <div id="words">
-        {% for i in words%}
+        {% for i in words %}
         <p>{{i.word}}</p>
         {% if i.misnum != 0 %}
         <p>미션 개수 : {{i.misnum}}개</p>

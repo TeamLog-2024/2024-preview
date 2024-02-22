@@ -277,7 +277,75 @@ def threeletter(request):
 
 
 def wordbattle(request):
-    return render(request, "wordbattle.html", {"placeholders" : ["시작 글자", "미션 글자", "단어 길이"]})
+    if request.method == "POST":
+        first = request.POST.get("first")
+        mission = request.POST.get("mission")
+        length = request.POST.get("length")
+        category = request.POST.get("category")
+        candidate = []
+        print(category)
+        for i in WordBattle.objects.all():
+            corre = 0
+            for j,k in zip(i.word, first):
+                if j == k:
+                    corre += 1
+            if len(length) == 0:
+                if corre == len(first) and i.category == category:
+                    candidate.append(i)
+            else:
+                if corre == len(first) and len(i.word) == int(length) and i.category == category:
+                    candidate.append(i)
+        
+        LenSort(candidate)
+        
+        dic = {}
+        for i in candidate:
+            misnum = 0
+            for j in i.word:
+                if j == mission:
+                    misnum += 1
+            dic[i.word] = misnum
+
+        mis = 6
+        words = []
+        for i in range(7):
+            for j in dic:
+                if dic[j] == mis:
+                    class Word:
+                        word = j
+                        leng = len(j)
+                        misnum = dic[j]
+                    words.append(Word)
+            mis -= 1
+
+        placeholders = [first, mission, length, category]
+        if len(placeholders[0]) == 0:
+            placeholders[0] = "시작 글자"
+        if len(placeholders[1]) == 0:
+            placeholders[1] = "미션 글자"
+        if len(placeholders[2]) == 0:
+            placeholders[2] = "단어 길이"
+        if len(placeholders[3]) == 0:
+            placeholders[3] = "주제"
+
+        url = "https://kkukowiki.kr/w/주제"
+        res = requests.get(url)
+        soup = BeautifulSoup(res.text, "html.parser")
+        categories = []
+        for i in soup.select(".wikitable > tbody > tr > td > a")[:141]:
+            categories.append(i.text)
+
+        value = category
+
+        return render(request, "wordbattle.html", {"words" : words, "placeholders" : placeholders, "categories" : categories, "value" : value})
+    
+    url = "https://kkukowiki.kr/w/주제"
+    res = requests.get(url)
+    soup = BeautifulSoup(res.text, "html.parser")
+    categories = []
+    for i in soup.select(".wikitable > tbody > tr > td > a")[:141]:
+        categories.append(i.text)
+    return render(request, "wordbattle.html", {"placeholders" : ["시작 글자", "미션 글자", "단어 길이", "주제"], "categories" : categories, "value" : [""]})
 
 
 def database(request):
@@ -301,26 +369,25 @@ def database(request):
 
         elif category == "2":
             # 공격 단어(한국어)
-            for i in li:
-                res = requests.get(f"https://kkukowiki.kr/w/공격단어/한국어/{i}")
-                soup = BeautifulSoup(res.text, "html.parser")
-                for j in soup.select(".sortable > tbody > tr > td > a"):
-                    word = j.text
-                    next = 0
-                    for k in Dictionary.objects.all():
-                        if k.word[0] == word[-1]:
-                            next += 1
-                    if not Attack.objects.filter(word=word).exists():
-                        Attack.objects.create(word=word).save()
-                    if Attack.objects.filter(word=word) and not Attack.objects.filter(next=next):
-                        att = Attack.objects.get(word=word)
-                        att.next = next
-                        att.save()
-                    if not Dictionary.objects.filter(word=word).exists():
-                        Dictionary.objects.create(word=word).save()
-            return render(request, "main.html")
+            # for i in li:
+            #     res = requests.get(f"https://kkukowiki.kr/w/공격단어/한국어/{i}")
+            #     soup = BeautifulSoup(res.text, "html.parser")
+            #     for j in soup.select(".sortable > tbody > tr > td > a"):
+            #         word = j.text
+            #         next = 0
+            #         for k in Dictionary.objects.all():
+            #             if k.word[0] == word[-1]:
+            #                 next += 1
+            #         if not Attack.objects.filter(word=word).exists():
+            #             Attack.objects.create(word=word).save()
+            #         if Attack.objects.filter(word=word) and not Attack.objects.filter(next=next):
+            #             att = Attack.objects.get(word=word)
+            #             att.next = next
+            #             att.save()
+            #         if not Dictionary.objects.filter(word=word).exists():
+            #             Dictionary.objects.create(word=word).save()
             # 막아놓음
-            # return render(request, "disabled.html")
+            return render(request, "disabled.html")
 
 
         elif category == "3":
@@ -332,7 +399,6 @@ def database(request):
             #         word = j.text
             #         if not Dictionary.objects.filter(word=word).exists():
             #             Dictionary.objects.create(word=word).save()
-            # return render(request, "main.html")
             # 막아놓음
             return render(request, "disabled.html")
 
@@ -387,15 +453,48 @@ def database(request):
 
         elif category == "7":
             # 쿵쿵따
-            for i in Dictionary.objects.all():
-                word = i.word
-                if len(word) == 3:
-                    if ord(word[0]) >= 127:
-                        if not ThreeLetter.objects.filter(word=word).exists():
-                            ThreeLetter.objects.create(word=word).save()
+            # for i in Dictionary.objects.all():
+            #     word = i.word
+            #     if len(word) == 3:
+            #         if ord(word[0]) >= 127:
+            #             if not ThreeLetter.objects.filter(word=word).exists():
+            #                 ThreeLetter.objects.create(word=word).save()
+            # 막아놓음
+            return render(request, "disabled.html")
+        
+        elif category == "8":
+            # 단어 대결
+            # url = "https://kkukowiki.kr/w/주제"
+            # res = requests.get(url)
+            # soup = BeautifulSoup(res.text, "html.parser")
+
+            # category = []
+
+            # for i in soup.select(".wikitable > tbody > tr > td > a"):
+            #     category.append(i.text)
+
+            # for i in category:
+            #     for j in "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ":
+            #         url = f"https://kkukowiki.kr/w/{i}/글자별_단어목록/{j}"
+            #         res = requests.get(url)
+            #         soup = BeautifulSoup(res.text, "html.parser")
+            #         for k in soup.select(".wikitable > tbody > tr > td > a")[14:]:
+            #             word = k.text
+            #             if not WordBattle.objects.filter(word=word).exists():
+            #                 WordBattle.objects.create(word=word, category=i).save()
+            #             else:
+            #                 try:
+            #                     if WordBattle.objects.get(word=word).category != i:
+            #                         WordBattle.objects.create(word=word, category=i).save()
+            #                 except:
+            #                     pass
+            # 막아 놓음
+            return render(request, "disabled.html")
 
         else:
             return render(request, "NotFound.html")
+        
+        return render(request, "main.html")
 
 
     return render(request, "database.html")

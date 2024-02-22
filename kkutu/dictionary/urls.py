@@ -11,4 +11,5 @@ urlpatterns = [
     path('wordsheet/attack/', views.attack, name="attack"),
     path('wordsheet/onetime/', views.onetime, name="onetime"),
     path('wordsheet/threeletter/', views.threeletter, name="threeletter"),
+    path('wordsheet/wordbattle/', views.wordbattle, name="wordbattle"),
 ]
