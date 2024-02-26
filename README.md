@@ -1,2 +1,2 @@
-# 2024-preview
-2024 TeamLog showcase(preview) project
+# beamdbg
+[Original Repository](https://github.com/h0pler/beamdbg)
